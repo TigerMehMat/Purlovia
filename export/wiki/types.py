@@ -122,6 +122,7 @@ class TogglePainVolume(UEProxyStructure, uetype='/Script/ShooterGame.TogglePainV
     DamageType: Mapping[int, ObjectProperty]
     RootComponent: Mapping[int, ObjectProperty]  # SceneComponent
 
+
 class CustomActorList(UEProxyStructure, uetype='/Script/ShooterGame.CustomActorList'):
     # No properties we can assume type for.
     CustomTag: Mapping[int, NameProperty]
@@ -205,3 +206,12 @@ class PrimalEngramEntry(UEProxyStructure, uetype='/Script/ShooterGame.PrimalEngr
     BluePrintEntry: Mapping[int, ObjectProperty]  # PrimalItem ref
     EngramRequirementSets: Mapping[int, ArrayProperty]
     EngramGroup: Mapping[int, ByteProperty]
+
+
+class SoundCue(UEProxyStructure, uetype='/Script/Engine.SoundCue'):
+    # DevKit Verified
+
+    # DevKit Unverified
+
+    FirstNode: Mapping[int, ObjectProperty]
+    Subtitles: Mapping[int, ArrayProperty]

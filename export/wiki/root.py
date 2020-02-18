@@ -7,6 +7,7 @@ from processing.stage_spawn_maps import ProcessSpawnMapsStage
 
 from .stage_drops import DropsStage
 from .stage_engrams import EngramsStage
+from .stage_explorer_notes import ExplorerNoteStage
 from .stage_items import ItemsStage
 from .stage_loot_crates import LootCratesStage
 from .stage_maps import MapStage
