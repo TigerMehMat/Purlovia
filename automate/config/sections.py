@@ -86,7 +86,7 @@ class ExportWikiSection(ExportSection):
     ExportDrops: bool = True
     ExportLootCrates: bool = True
     ExportSpecies: bool = True
-    ExportExplorerNotes: bool = True
+    ExportExplorerNotes: bool = False
 
     class Config:
         extra = Extra.forbid
