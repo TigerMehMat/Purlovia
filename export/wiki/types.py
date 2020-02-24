@@ -199,20 +199,29 @@ class SoundCue(UEProxyStructure, uetype='/Script/Engine.SoundCue'):
 
 class ShooterWeapon(UEProxyStructure, uetype='/Script/ShooterGame.ShooterWeapon'):
     # DevKit Verified
+    EquipTime = uefloats(1.0)
+    bSupportsOffhandShield = uebools(False)
 
     # DevKit Unverified
-    EquipTime = uefloats(1.0)
-    bAllowRunningWhileFiring = uebools(True)
-    bSupportsOffhandShield = uebools(False)
 
     WeaponConfig: Mapping[int, ArrayProperty]
 
 
 class ShooterWeapon_Melee(ShooterWeapon, uetype='/Script/ShooterGame.ShooterWeapon_Melee'):
     # DevKit Verified
+    MeleeDamageAmount = ueints(0)
 
     # DevKit Unverified
-    MeleeDamageAmount = ueints(0)
+
+    MeleeDamageType: Mapping[int, ObjectProperty]
+
+
+class ShooterWeapon_Instant(ShooterWeapon, uetype='/Script/ShooterGame.ShooterWeapon_Instant'):
+    # DevKit Verified
+
+    # DevKit Unverified
+
+    InstantConfig: Mapping[int, StructProperty]
 
 
 class PrimalStructure(UEProxyStructure, uetype='/Script/ShooterGame.PrimalStructure'):

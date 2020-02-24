@@ -1,7 +1,7 @@
 from typing import Any, Dict, cast
 
 from ark.types import PrimalItem
-from export.wiki.types import ShooterWeapon, ShooterWeapon_Melee
+from export.wiki.types import ShooterWeapon, ShooterWeapon_Instant, ShooterWeapon_Melee
 from ue.gathering import gather_properties
 
 
@@ -21,11 +21,16 @@ def gather_weapon_values(item: PrimalItem) -> Dict[str, Any]:
     v['blueprintPath'] = template_ref
     v['equipTime'] = weapon.EquipTime[0]
     v['supportsShields'] = weapon.bSupportsOffhandShield[0]
-    v['runningAllowedWhenFiring'] = weapon.bAllowRunningWhileFiring[0]
 
-    damage = dict()
+    damage: Dict[str, Any] = dict()
     if isinstance(weapon, ShooterWeapon_Melee):
-        damage['rawMelee'] = weapon.MeleeDamageAmount[0]
+        melee = cast(ShooterWeapon_Melee, weapon)
+        damage['raw'] = melee.MeleeDamageAmount[0]
+        damage['type'] = melee.MeleeDamageType[0]
+    elif isinstance(weapon, ShooterWeapon_Instant):
+        instant_config = weapon.InstantConfig[0].as_dict()
+        damage['raw'] = instant_config['HitDamage']
+        #damage['type'] = instant_config['DamageType']
 
     v['damage'] = damage
 
