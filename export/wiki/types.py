@@ -173,26 +173,6 @@ class NPCSpawnEntriesContainer(UEProxyStructure, uetype='/Script/ShooterGame.NPC
     NPCSpawnLimits: Mapping[int, ArrayProperty]  # = []
 
 
-class PrimalStructureItemContainer_SupplyCrate(UEProxyStructure,
-                                               uetype='/Script/ShooterGame.PrimalStructureItemContainer_SupplyCrate'):
-    # DevKit Verified
-    bSetsRandomWithoutReplacement = uebools(False)
-    InitialTimeToLoseHealth = uefloats(20.0)
-    IntervalTimeToLoseHealth = uefloats(120.0)
-    MaxLevelToAccess = ueints(0)
-    MinItemSets = uefloats(1.0)
-    MaxItemSets = uefloats(1.0)
-    MinQualityMultiplier = uefloats(1.0)
-    MaxQualityMultiplier = uefloats(1.0)
-    NumItemSetsPower = uefloats(1.0)
-    RequiredLevelToAccess = ueints(0)
-
-    # DevKit Unverified
-
-    ItemSets: Mapping[int, ArrayProperty]
-    AdditionalItemSets: Mapping[int, ArrayProperty]
-
-
 class PrimalEngramEntry(UEProxyStructure, uetype='/Script/ShooterGame.PrimalEngramEntry'):
     # DevKit Verified
     RequiredCharacterLevel = ueints(0)
@@ -215,3 +195,57 @@ class SoundCue(UEProxyStructure, uetype='/Script/Engine.SoundCue'):
 
     FirstNode: Mapping[int, ObjectProperty]
     Subtitles: Mapping[int, ArrayProperty]
+
+
+class ShooterWeapon(UEProxyStructure, uetype='/Script/ShooterGame.ShooterWeapon'):
+    # DevKit Verified
+
+    # DevKit Unverified
+    EquipTime = uefloats(1.0)
+    bAllowRunningWhileFiring = uebools(True)
+    bSupportsOffhandShield = uebools(False)
+
+    WeaponConfig: Mapping[int, ArrayProperty]
+
+
+class ShooterWeapon_Melee(ShooterWeapon, uetype='/Script/ShooterGame.ShooterWeapon_Melee'):
+    # DevKit Verified
+
+    # DevKit Unverified
+    MeleeDamageAmount = ueints(0)
+
+
+class PrimalStructure(UEProxyStructure, uetype='/Script/ShooterGame.PrimalStructure'):
+    # DevKit Verified
+    Health = uefloats(100.0)
+    bCanDemolish = uebools(True)
+    bCanBeRepaired = uebools(True)
+    bUsesHealth = uebools(True)
+    bPreventPlacementInWater = uebools(True)
+    bImmuneToAutoDemolish = uebools(False)
+    DecayDestructionPeriodMultiplier = uefloats(1.0)
+    DescriptiveName = uestrings('')
+
+    # DevKit Unverified
+
+    StructureSettingsClass: Mapping[int, ObjectProperty]
+
+
+class PrimalStructureItemContainer_SupplyCrate(PrimalStructure,
+                                               uetype='/Script/ShooterGame.PrimalStructureItemContainer_SupplyCrate'):
+    # DevKit Verified
+    bSetsRandomWithoutReplacement = uebools(False)
+    InitialTimeToLoseHealth = uefloats(20.0)
+    IntervalTimeToLoseHealth = uefloats(120.0)
+    MaxLevelToAccess = ueints(0)
+    MinItemSets = uefloats(1.0)
+    MaxItemSets = uefloats(1.0)
+    MinQualityMultiplier = uefloats(1.0)
+    MaxQualityMultiplier = uefloats(1.0)
+    NumItemSetsPower = uefloats(1.0)
+    RequiredLevelToAccess = ueints(0)
+
+    # DevKit Unverified
+
+    ItemSets: Mapping[int, ArrayProperty]
+    AdditionalItemSets: Mapping[int, ArrayProperty]

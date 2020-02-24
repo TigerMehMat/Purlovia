@@ -12,6 +12,8 @@ from .items.crafting import convert_crafting_values
 from .items.durability import convert_durability_values
 from .items.egg import convert_egg_values
 from .items.status import convert_status_effect
+from .items.structure import gather_structure_values
+from .items.weapon import gather_weapon_values
 
 __all__ = [
     'ItemsStage',
@@ -83,12 +85,8 @@ class ItemsStage(JsonHierarchyExportStage):
             v.update(convert_durability_values(item))
 
         v.update(convert_crafting_values(item))
-
-        if 'StructureToBuild' in item and item.StructureToBuild[0].value.value:
-            v['structureTemplate'] = item.StructureToBuild[0]
-
-        if 'WeaponTemplate' in item and item.WeaponTemplate[0].value.value:
-            v['weaponTemplate'] = item.WeaponTemplate[0]
+        v.update(gather_structure_values(item))
+        v.update(gather_weapon_values(item))
 
         if item.has_override('UseItemAddCharacterStatusValues'):
             status_effects = item.UseItemAddCharacterStatusValues[0]
@@ -117,7 +115,7 @@ class ItemsStage(JsonHierarchyExportStage):
                 del v['index']
 
         return None
-    
+
     def _add_pgd_indices(self, pgd_asset: UAsset, mod_data: Optional[Dict[str, Any]]):
         if not self.gathered_results or not pgd_asset.default_export or mod_data:
             return
@@ -126,12 +124,12 @@ class ItemsStage(JsonHierarchyExportStage):
         d = properties.get_property('MasterItemList', fallback=None)
         if not d:
             return
-        
+
         master_list = []
         for ref in d.values:
             if ref.value.value:
                 master_list.append(ref.value.value.fullname)
-        
+
         for v in self.gathered_results:
             try:
                 index = master_list.index(v['blueprintPath'])
