@@ -9,6 +9,7 @@ from operator import itemgetter
 from pathlib import Path, PurePosixPath
 from typing import *
 
+from ark.overrides import get_overrides_for_mod
 from automate.ark import ArkSteamManager
 from automate.version import createExportVersion
 from config import ConfigFile, get_global_config
@@ -148,10 +149,13 @@ class ExportManager:
         official_modids = set(self.config.official_mods.ids())
         official_modids -= set(self.config.settings.SeparateOfficialMods)
         self.official_mod_prefixes = tuple(f'/Game/Mods/{modid}/' for modid in official_modids)
+        overrides = get_overrides_for_mod('')
         for root in self.roots:
             root_path = Path(base_path / root.get_relative_path())
             for stage in root.stages:
                 if not should_run_section(stage.section_name, self.config.run_sections):
+                    continue
+                if not should_run_section(stage.section_name, overrides.include_in_stages):
                     continue
                 logger.info('Extracting %s in core', self._get_name_for_stage(root, stage))
                 stage.extract_core(root_path)
@@ -159,10 +163,13 @@ class ExportManager:
 
         # Extract : Mods : Run each stage of each root
         for modid in modids:
+            overrides = get_overrides_for_mod(modid)
             for root in self.roots:
                 root_path = Path(base_path / root.get_relative_path())
                 for stage in root.stages:
                     if not should_run_section(stage.section_name, self.config.run_sections):
+                        continue
+                    if not should_run_section(stage.section_name, overrides.include_in_stages):
                         continue
                     logger.info("Extracting %s in mod %s '%s'", self._get_name_for_stage(root, stage), modid,
                                 self._get_mod_name(modid))

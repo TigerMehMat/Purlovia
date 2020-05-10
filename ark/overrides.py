@@ -39,6 +39,7 @@ class MapBoundariesSettings(BaseModel):
 
 class OverrideSettings(BaseModel):
     skip_export: Optional[bool] = False
+    include_in_stages: Dict[str, bool] = dict()
 
     # Variants, currently only applying to species
     add_variants: Dict[str, bool] = dict()
