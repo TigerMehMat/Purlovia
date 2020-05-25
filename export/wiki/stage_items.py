@@ -22,7 +22,7 @@ logger = get_logger(__name__)
 
 class ItemsStage(JsonHierarchyExportStage):
     def get_format_version(self) -> str:
-        return "2"
+        return "3"
 
     def get_name(self) -> str:
         return "items"
