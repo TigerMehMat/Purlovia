@@ -13,7 +13,7 @@ from utils.log import get_logger
 
 from .base import UEBase
 from .context import INCLUDE_METADATA
-from .coretypes import NameIndex, ObjectIndex
+from .coretypes import BulkDataHeader, NameIndex, ObjectIndex, StripDataFlags, Table
 from .number import make_binary_operator, make_binary_operators, make_operator
 from .stream import MemoryStream
 from .utils import clean_double, clean_float
@@ -1189,7 +1189,7 @@ class TextureMipMap(UEBase):
 
         if self.bulk_info.is_payload_inline:
             # Bulk data is right after the header, read it although we don't know the dimensions yet.
-            #self.stream.offset += self.bulk_info.size_on_disk
+            # self.stream.offset += self.bulk_info.size_on_disk
             self._newField('raw_data', self.stream.readBytes(self.bulk_info.size_on_disk))
         elif self.bulk_info.is_payload_at_the_end:
             # HACK: Bulk data is somewhere in the file, read it although we don't know the dimensions yet.
