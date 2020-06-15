@@ -82,5 +82,3 @@ class SpawnGroupStage(JsonHierarchyExportStage):
             values['limits'] = [convert_limit_entry(entry) for entry in container.NPCSpawnLimits[0].values]
 
         return values
-
-

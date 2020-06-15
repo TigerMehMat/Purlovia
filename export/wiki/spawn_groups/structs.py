@@ -1,3 +1,6 @@
+from export.wiki.maps.models import WeighedClassSwap
+from ue.utils import sanitise_output
+
 __all__ = [
     'convert_single_class_swap',
     'convert_group_entry',
@@ -6,18 +9,16 @@ __all__ = [
 
 
 def convert_single_class_swap(d):
-    v = {
-        'from': d['FromClass'],
-        'exact': d['bExactMatch'],
-        'to': d['ToClasses'],
-        'weights': d['Weights'],
-    }
+    result = WeighedClassSwap(from_class=sanitise_output(d['FromClass']),
+                              exact=bool(d.get('bExactMatch', True)),
+                              to=sanitise_output(d['ToClasses']),
+                              weights=d['Weights'].values)
 
-    if d['ActiveEvent'] and d['ActiveEvent'].value and d[
-            'ActiveEvent'].value.value and d['ActiveEvent'].value.value.value != 'None':
-        v['during'] = d['ActiveEvent']
+    if d['ActiveEvent'] and d['ActiveEvent'].value and d['ActiveEvent'].value.value:
+        # Assigning "None" here is safe as it is the field default and therefore omitted
+        result.during = str(d['ActiveEvent'])
 
-    return v
+    return result
 
 
 def convert_group_entry(struct):
