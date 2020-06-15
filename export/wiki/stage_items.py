@@ -43,8 +43,8 @@ class ItemsStage(JsonHierarchyExportStage):
         try:
             v['name'] = item.get('DescriptiveNameBase', 0, None)
             v['description'] = item.get('ItemDescription', 0, None)
-            v['blueprintPath'] = item.get_source().fullname
-            v['parent'] = get_parent_class(v['blueprintPath'])
+            v['bp'] = item.get_source().fullname
+            v['parent'] = get_parent_class(v['bp'])
 
             icon = item.get('ItemIcon', 0, None)
             if not icon:
