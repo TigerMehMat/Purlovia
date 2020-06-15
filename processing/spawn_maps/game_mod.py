@@ -32,3 +32,15 @@ def merge_game_mod_groups(core_groups, changeset):
 def is_custom_map(moddata: Dict[str, Any]) -> bool:
     mod_type = int(moddata.get('type', 1))
     return mod_type == 2 or moddata['id'] in get_official_mods()
+
+
+def apply_remaps(groups, remaps):
+    if not remaps:
+        return
+    fromto = {e['from']: e['to'] for e in remaps}
+
+    for group in groups:
+        for entry in group['entries']:
+            for index, klass in enumerate(entry['classes']):
+                new_klass = fromto.get(klass, None)
+                entry['classes'][index] = new_klass or klass
