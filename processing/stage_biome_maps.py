@@ -22,7 +22,7 @@ class ProcessBiomeMapsStage(ProcessingStage):
 
     def extract_core(self, _: Path):
         # Find data of maps with biomes
-        map_set: List[Path] = [path.parent for path in self.wiki_path.glob('*/biomes.json')]
+        map_set = self.find_official_maps(True, keyword='biomes')
 
         for map_data_path in map_set:
             self._process(map_data_path, None)
@@ -36,7 +36,7 @@ class ProcessBiomeMapsStage(ProcessingStage):
 
         # Find data of maps with biomes
         root_wiki_mod_dir = Path(self.wiki_path / f'{modid}-{mod_data["name"]}')
-        map_set: List[Path] = [path.parent for path in root_wiki_mod_dir.glob('*/biomes.json')]
+        map_set = self.find_maps(root_wiki_mod_dir, keyword='biomes')
 
         for map_data_path in map_set:
             self._process(map_data_path, modid)
@@ -49,7 +49,7 @@ class ProcessBiomeMapsStage(ProcessingStage):
         data_biomes = self.load_json_file(path / 'biomes.json')
         data_map_settings = self.load_json_file(path / 'world_settings.json')
         if not data_biomes or not data_map_settings:
-            logger.debug(f'Data required by the processor is missing or invalid. Skipping.')
+            logger.debug('Data required by the processor is missing or invalid. Skipping.')
             return
 
         config = get_overrides_for_map(data_map_settings['persistentLevel'], None).svgs

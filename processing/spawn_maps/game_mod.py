@@ -1,3 +1,8 @@
+from typing import Any, Dict
+
+from ark.mod import get_official_mods
+
+
 def merge_game_mod_groups(core_groups, changeset):
     # Create a dictionary for quicker look-ups of core groups
     groups = dict()
@@ -22,3 +27,8 @@ def merge_game_mod_groups(core_groups, changeset):
                 orig_group['limits'] += change['limits']
             else:
                 orig_group['limits'] = change['limits']
+
+
+def is_custom_map(moddata: Dict[str, Any]) -> bool:
+    mod_type = int(moddata.get('type', 1))
+    return mod_type == 2 or moddata['id'] in get_official_mods()
